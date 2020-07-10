@@ -28,16 +28,7 @@ public class WebDriverSettings {
         driver.manage().window().maximize();
     }
 
-    @BeforeMethod
-    public void checklodin(){
-        driver.findElement(By.id("user_name")).clear();
-        driver.findElement(By.id("user_name")).sendKeys("demo");
 
-        driver.findElement(By.id("username_password")).clear();
-        driver.findElement(By.id("username_password")).sendKeys("demo");
-
-        driver.findElement(By.id("bigbutton")).click();
-    }
 
 //    @AfterMethod
 //    public void screenShot() throws IOException {

@@ -27,13 +27,26 @@ public class TestCase extends WebDriverSettings {
     }
 
 
-    public void sleep() throws InterruptedException {
+    public void sleep() {
         driver.manage().timeouts().implicitlyWait(300, TimeUnit.SECONDS);
     }
 
-    @Test
-    public void enterSales() throws InterruptedException {
 
+    @Test(priority = 1)
+    public void checkLogin() {
+
+        driver.findElement(By.id("user_name")).clear();
+        driver.findElement(By.id("user_name")).sendKeys("demo");
+
+        driver.findElement(By.id("username_password")).clear();
+        driver.findElement(By.id("username_password")).sendKeys("demo");
+
+        driver.findElement(By.id("bigbutton")).click();
+    }
+
+
+    @Test(priority = 2)
+    public void contragentFoundTest() {
 
         Actions action = new Actions(driver);
         WebElement we = driver.findElement(By.xpath("//a[@id='grouptab_0']"));
@@ -44,9 +57,11 @@ public class TestCase extends WebDriverSettings {
 
         driver.findElement(cssSelector("html.yui3-js-enabled body div#ajaxHeader div#sidebar_container.container-fluid.sidebar_container div.sidebar div#actionMenuSidebar.actionMenuSidebar ul li.actionmenulinks a div.actionmenulink")).click();
         sleep();
+    }
 
 
-        //Main Information
+    @Test(priority = 3)
+    public void mainInformationTest() {
 
         driver.findElement(cssSelector("#name")).sendKeys(SECOND_NAME + " " + FIRST_NAME);
         sleep();
@@ -55,15 +70,17 @@ public class TestCase extends WebDriverSettings {
 
         driver.findElement(By.xpath("//div[@id='detailpanel_-1']//option[2]")).click();
 
+        sleep();
+    }
 
-        //Additional Information
+
+    @Test(priority = 4)
+
+    public void additionalInformationTest() {
 
         driver.findElement(By.xpath("//select[@id='account_type']//option[4]")).click();
-
         driver.findElement(By.xpath("//body//option[28]")).click();
-
         driver.findElement(cssSelector("#annual_revenue")).sendKeys("1000000");
-
         driver.findElement(By.xpath("/html[1]/body[1]/div[4]/div[1]/form[1]/div[3]/input[1]")).click();
 
         String strName = driver.findElement(By.xpath("//div[@id='tab-content-0']//div[2]//div[1]//div[2]")).getText();
@@ -73,6 +90,11 @@ public class TestCase extends WebDriverSettings {
         Assert.assertEquals(true, strType.contains(TYPE));
 
         scroll();
+    }
+
+
+    @Test(priority = 5)
+    public void secondNameAddingTest() {
 
         driver.findElement(By.xpath("//a[@id='subpanel_title_contacts']//div[@class='col-xs-10 col-sm-11 col-md-11']//div")).click();
         sleep();
@@ -86,11 +108,20 @@ public class TestCase extends WebDriverSettings {
         sleep();
 
         driver.findElement(cssSelector("#pagecontent > form > table > tbody > tr > td > table > tbody > tr:nth-child(2) > td > table.list.view > tbody > tr:nth-child(1) > td > table > tbody > tr > td > input:nth-child(1)")).click();
+    }
+
+
+    @Test(priority = 6)
+    public void contragentAssertationTest(){
 
         String sideBarSecondName = driver.findElement(By.xpath("//div[@id='recentlyViewedSidebar']")).getText();
         System.out.println(sideBarSecondName);
-        Assert.assertEquals(true, sideBarSecondName.contains(SECOND_NAME + " " + FIRST_NAME));
+        Assert.assertEquals(true,sideBarSecondName.contains(SECOND_NAME +" "+FIRST_NAME));
+    }
 
+
+    @Test(priority = 7)
+    public void contractAddingTest() {
 
         driver.findElement(By.xpath("//a[@id='subpanel_title_account_aos_contracts']//div[@class='col-xs-10 col-sm-11 col-md-11']//div")).click();
 
@@ -115,6 +146,11 @@ public class TestCase extends WebDriverSettings {
         String contractCheck = driver.findElement(cssSelector("#list_subpanel_account_aos_contracts > table > tbody > tr > td:nth-child(2) > a")).getText();
         System.out.println(contractCheck);
         Assert.assertEquals(true, contractCheck.contains("test1"));
+    }
+
+
+    @Test(priority = 8)
+    public void secondContractAddingTest() {
 
         driver.findElement(cssSelector("#AOS_Contracts_создать_button")).click();
 
@@ -128,18 +164,19 @@ public class TestCase extends WebDriverSettings {
         driver.findElement(cssSelector("#list_subpanel_account_aos_contracts > table > tbody > tr.oddListRowS1 > td:nth-child(2) > a")).click();
 
         sleep();
+    }
+
+
+    @Test(priority = 9)
+    public void deleteSecondContractTest() {
 
         driver.findElement(By.cssSelector("#tab-actions > a")).click();
-
         driver.findElement(cssSelector("#delete_button")).click();
-
 
         driver.switchTo().alert().accept();
         sleep();
 
-        
         driver.findElement(By.cssSelector("#recentlyViewedSidebar > ul > div:nth-child(2) > li > a.recent-links-detail")).click();
-
         scroll();
     }
 }
